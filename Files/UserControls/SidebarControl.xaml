@@ -74,7 +74,6 @@
                                             Control.IsTemplateFocusTarget="True"
                                             Foreground="{TemplateBinding Foreground}"
                                             Icon="{TemplateBinding Icon}"
-                                            IsTabStop="false"
                                             UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}" />
                                         <muxc:ItemsRepeater
                                             x:Name="NavigationViewItemMenuItemsHost"
