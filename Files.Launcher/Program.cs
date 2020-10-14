@@ -483,18 +483,12 @@ namespace FilesFullTrust
                     break;
 
                 case "Query":
-                    var responseQuery = new ValueSet();
-                    Shell32.SHQUERYRBINFO queryBinInfo = new Shell32.SHQUERYRBINFO();
-                    queryBinInfo.cbSize = (uint)Marshal.SizeOf(queryBinInfo);
-                    var res = Shell32.SHQueryRecycleBin("", ref queryBinInfo);
-                    if (res == HRESULT.S_OK)
+                    var recycleBin = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
+                    var responseQuery = new ValueSet
                     {
-                        var numItems = queryBinInfo.i64NumItems;
-                        var binSize = queryBinInfo.i64Size;
-                        responseQuery.Add("NumItems", numItems);
-                        responseQuery.Add("BinSize", binSize);
-                        await args.Request.SendResponseAsync(responseQuery);
-                    }
+                        { "NumItems", recycleBin.Properties.Count }
+                    };
+                    await args.Request.SendResponseAsync(responseQuery);
                     break;
 
                 case "Enumerate":
