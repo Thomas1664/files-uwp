@@ -99,26 +99,21 @@ namespace Files.View_Models.Properties
                     // GetFolderFromPathAsync cannot access recyclebin folder
                     if (App.Connection != null)
                     {
-                        var value = new ValueSet();
-                        value.Add("Arguments", "RecycleBin");
-                        value.Add("action", "Query");
+                        ValueSet value = new ValueSet
+                        {
+                            { "Arguments", "RecycleBin" },
+                            { "action", "Query" }
+                        };
                         // Send request to fulltrust process to get recyclebin properties
                         var response = await App.Connection.SendMessageAsync(value);
                         if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                         {
-                            if (response.Message.TryGetValue("BinSize", out var binSize))
-                            {
-                                ViewModel.ItemSizeBytes = (long)binSize;
-                                ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
-                                ViewModel.ItemSizeVisibility = Visibility.Visible;
-                            }
-                            else
-                            {
-                                ViewModel.ItemSizeVisibility = Visibility.Collapsed;
-                            }
+                            var recycleBinFolder = await ItemViewModel.GetFolderFromPathAsync(App.AppSettings.RecycleBinPath);
+                            GetFolderSize(recycleBinFolder, TokenSource.Token);
+
                             if (response.Message.TryGetValue("NumItems", out var numItems))
                             {
-                                ViewModel.FilesCount = (int)(long)numItems;
+                                ViewModel.FilesCount = (int)numItems;
                                 SetItemsCountString();
                                 ViewModel.FilesAndFoldersCountVisibility = Visibility.Visible;
                             }

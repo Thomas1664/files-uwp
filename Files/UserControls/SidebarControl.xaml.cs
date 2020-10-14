@@ -186,7 +186,7 @@ namespace Files.Controls
                 var response = await App.Connection.SendMessageAsync(value);
                 if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
                 {
-                    RecycleBinHasItems = (long)numItems > 0;
+                    RecycleBinHasItems = (int)numItems > 0;
                 }
                 else
                 {
