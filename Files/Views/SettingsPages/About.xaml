@@ -155,7 +155,8 @@
                     x:Name="OpenLogLocationButton"
                     x:Uid="SettingsAboutOpenLogLocationButton"
                     Click="OpenLogLocationButton_Click"
-                    Content="Open log location" />
+                    Content="Open log location"
+                    Style="{ThemeResource ButtonRevealStyle}" />
 
                 <TextBlock
                     x:Uid="SettingsAboutThirdPartyLicenses"
